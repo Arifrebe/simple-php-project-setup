@@ -19,9 +19,16 @@ function loadPage($page) {
 
 // Function to generate a full URL for an asset (like images, CSS, or JS files).
 function asset($url) {
-    // Build the full URL using the scheme (HTTP/HTTPS) and host name, appending the asset path.
-    return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/pictoria/assets/' . ltrim($url, '/');
+    // Get the current script directory dynamically
+    $basePath = dirname($_SERVER['SCRIPT_NAME']); 
+    
+    // Ensure it does not end with a slash
+    $basePath = rtrim($basePath, '/');
+    
+    // Build the full URL dynamically
+    return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $basePath . '/assets/' . ltrim($url, '/');
 }
+
 
 // Get the current request URI, trimming any leading/trailing slashes
 $requestURI = trim($_SERVER['REQUEST_URI'],'/');
