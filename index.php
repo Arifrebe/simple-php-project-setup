@@ -1,5 +1,7 @@
 <?php
 
+include 'database.php';
+
 // Function to load the page based on the provided page name.
 function loadPage($page) {
     // Sanitize the page name by appending the directory and view file extension

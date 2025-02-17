@@ -27,16 +27,7 @@ if (defined('DBDRIVER') && defined('DBHOST') && defined('DBNAME') && defined('DB
         
     } catch (PDOException $e) {
         // Log the detailed error message for debugging purposes
-        error_log("Database connection failed: " . $e->getMessage());
-        
-        // Display a generic error message to the user without revealing sensitive details
-        die("A system error occurred. Please try again later.");
+        die("Database connection failed: " . $e->getMessage());
     }
     
-} else {
-    // Log the missing configuration error
-    error_log("Error: One or more database configuration constants are not defined.");
-    
-    // Display a generic error message to the user
-    die("A system error occurred. Please try again later.");
 }
