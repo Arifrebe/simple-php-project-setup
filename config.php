@@ -1,6 +1,6 @@
 <?php
 
-define('DBNAME', 'pictoria');
+define('DBNAME', 'phptemplate');
 define('DBHOST', 'localhost');
 define('DBUSER', 'root');
 define('DBPASS', '');

@@ -4,8 +4,14 @@
 
 - [About](#about)
 - [Getting Started](#getting_started)
+    - [Prerequisites](#prerequisites)
+    - [Installing](#installing)
 - [Usage](#usage)
-- [Contributing](../CONTRIBUTING.md)
+- [Database Connection (PDO)](#database-connection-pdo)
+    - [configure your config.php](#1-configure-your-configphp)
+    - [Fetch data with PDO](#2-fetch-data-with-pdo)
+    - [Insert Data with PDO](#3-insert-data-with-pdo)
+- [Conclusion](#conclusion)
 
 ## About <a name = "about"></a>
 
@@ -17,17 +23,16 @@ With this inline PHP starter, developers can easily mix PHP logic with HTML with
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
 
-### Prerequisites
+### Prerequisites <a name = "prerequisites"></a>
 
 Before you begin, make sure you have the following installed on your system:
-
 - PHP (Version 7.4 or later recommended) – Download PHP
 - A Web Server (Optional: Apache, Nginx, or use PHP’s built-in server)
 - A Code Editor (Recommended: VS Code, Sublime Text, or PHPStorm)
 - A Web Browser (e.g., Chrome, Firefox) to test your application
 - A Database (Optional) – MySQL, MariaDB, or SQLite if you plan to use a database
 
-Example: Check if PHP is installed by running the following command in your terminal:
+**Example**: Check if PHP is installed by running the following command in your terminal:
 ```
 php -v
 ```
@@ -50,13 +55,12 @@ pdo_mysql
 pdo_sqlite
 ```
 
-### Installing
+### Installing <a name = "installing"></a>
 
 1. Clone the Repository (if using Git):
 
 ```
 git clone https://github.com/Arifrebe/simple-php-project-setup.git
-
 ```
 
 Then, navigate to the project directory:
@@ -105,3 +109,67 @@ Welcome to My Simple PHP Project
 Current Date and Time: 2025-02-17 10:45:23
 ```
 You can modify the `home.view.php` file to add more dynamic PHP functionality.
+
+## Database Connection (PDO)  <a name="pdo_connection"></a>
+This project supports PDO (PHP Data Objects) for secure and efficient database connections. Below is an example of how to connect to a MySQL database using PDO.
+
+### 1. configure your `config.php` <a name="configure"></a>
+
+Ensure you have your config.php file with the following content. This file holds your database credentials:
+
+```
+<?php
+
+// Define your database credentials
+define('DBNAME', 'pictoria');    // Name of the database
+define('DBHOST', 'localhost');   // Database host (usually localhost)
+define('DBUSER', 'root');        // Database username
+define('DBPASS', '');            // Database password (empty for local development)
+define('DBDRIVER', 'mysql');     // Database type (mysql in this case)
+?>
+```
+**Note**: The `config.php` file is already configured. If needed, uncomment the code to connect to database.
+
+This `config.php` file contains essential constants used to configure the PDO connection. Make sure to modify these values according to your environment.
+
+### 2. Fetch data with PDO
+To fetch data from the database, you can prepare and execute SQL queries. Below is an example of fetching users from a `users` table:
+```
+<?php
+// Include the database connection
+require 'database.php';
+
+// Prepare and execute the SQL query
+$sql = "SELECT * FROM users";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+
+// Fetch all users and display their names
+$users = $stmt->fetchAll();
+foreach ($users as $user) {
+    echo "User: " . $user['name'] . "<br>";
+}
+?>
+```
+### 3. Insert Data with PDO
+You can also insert data into the database using prepared statements. Here’s an example of inserting a new user into the `users` table:
+```
+<?php
+// Include the database connection
+require 'database.php';
+
+// Prepare the SQL insert query
+$sql = "INSERT INTO users (name, email) VALUES (:name, :email)";
+$stmt = $pdo->prepare($sql);
+
+// Execute the query with user data
+$stmt->execute([
+    'name' => 'John Doe',
+    'email' => 'john@example.com'
+]);
+
+echo "User added successfully!";
+?>
+```
+## Conclusion <a name = "conclusion"></a>
+With this setup, you can now securely and efficiently interact with your MySQL database using PDO in your PHP project. Modify the config.php file for different environments (e.g., development, production), and feel free to extend the functionality to support CRUD operations.
